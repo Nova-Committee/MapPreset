@@ -17,9 +17,6 @@
   "entrypoints": {
     "main": [
       "committee.nova.mods.mappreset.fabric.MapPresetFabric"
-    ],
-    "client": [
-      "committee.nova.mods.mappreset.fabric.client.MapPresetFabricClient"
     ]
   },
   "mixins": [
