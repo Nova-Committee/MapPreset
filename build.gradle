@@ -46,12 +46,12 @@ subprojects {
         // If you remove this line, sources will not be generated.
         withSourcesJar()
 
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     tasks.withType(JavaCompile).configureEach {
-        it.options.release = 17
+        it.options.release = 21
     }
 
     processResources {
@@ -59,6 +59,8 @@ subprojects {
                 "version"                   : version,
                 "group"                     : project.group, //Else we target the task's group.
                 "minecraft_version"         : minecraft_version,
+                "neoforge_loader_version_range": neoforge_loader_version_range,
+                "neoforge_version"          : neoforge_version,
                 "forge_version"             : forge_version,
                 "forge_loader_version_range": forge_loader_version_range,
                 "minecraft_version_range"   : minecraft_version_range,

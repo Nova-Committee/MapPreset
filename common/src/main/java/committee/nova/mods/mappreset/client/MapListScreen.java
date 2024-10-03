@@ -21,10 +21,9 @@ import net.minecraft.resources.ResourceLocation;
 public class MapListScreen extends Screen {
     public Screen lastScreen;
     public EditBox nameEdit;
-    private MapSelectionList selectionList;
     public Button createButton;
     public Button cancelButton;
-
+    private MapSelectionList selectionList;
 
 
     public MapListScreen(Screen parent) {
@@ -34,8 +33,8 @@ public class MapListScreen extends Screen {
     }
 
     @Override
-    public void tick() {
-        this.nameEdit.tick();
+    protected void setInitialFocus() {
+        this.setInitialFocus(this.nameEdit);
     }
 
     @Override
@@ -45,10 +44,10 @@ public class MapListScreen extends Screen {
         this.nameEdit.setValue("New World");
         this.addWidget(this.nameEdit);
 
-        this.selectionList = this.addWidget(new MapSelectionList(this, this.width, this.height, 48, this.height - 64, 36));
+        this.selectionList = this.addWidget(new MapSelectionList(this, this.width, this.height - 112, 48, 36));
 
         this.createButton = this.addRenderableWidget(Button.builder(Component.translatable("selectWorld.create"), (button) -> {
-            if (!this.nameEdit.getValue().isEmpty()){
+            if (!this.nameEdit.getValue().isEmpty()) {
                 this.createMap();
             }
         }).bounds(this.width / 2 - 154, this.height - 52, 150, 20).build());
@@ -60,12 +59,12 @@ public class MapListScreen extends Screen {
 
     @Override
     public void render(GuiGraphics guiGraphics, int i, int j, float f) {
+        super.render(guiGraphics, i, j, f);
         this.selectionList.render(guiGraphics, i, j, f);
         this.nameEdit.render(guiGraphics, i, j, f);
         this.createButton.render(guiGraphics, i, j, f);
         this.cancelButton.render(guiGraphics, i, j, f);
         guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 8, 16777215);
-        super.render(guiGraphics, i, j, f);
     }
 
     @Override
@@ -92,8 +91,7 @@ public class MapListScreen extends Screen {
     }
 
     @Override
-    public void resize(Minecraft mc, int width, int height)
-    {
+    public void resize(Minecraft mc, int width, int height) {
         this.init(mc, width, height);
     }
 
@@ -106,7 +104,8 @@ public class MapListScreen extends Screen {
     }
 
     private void createMap() {
-        if (getSave() != null) getSave().copy(this, Util.sanitizeName(nameEdit.getValue(), ResourceLocation::validPathChar));
+        if (getSave() != null)
+            getSave().copy(this, Util.sanitizeName(nameEdit.getValue(), ResourceLocation::validPathChar));
     }
 
     public void popScreen() {
@@ -117,8 +116,7 @@ public class MapListScreen extends Screen {
         this.createButton.active = bl;
     }
 
-    public Minecraft getMinecraftInstance()
-    {
+    public Minecraft getMinecraftInstance() {
         return minecraft;
     }
 }

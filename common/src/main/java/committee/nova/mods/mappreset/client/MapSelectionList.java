@@ -30,8 +30,8 @@ public class MapSelectionList extends ObjectSelectionList<MapSelectionList.MapLi
     public TemplateSaveLoader saveLoader;
     public List<WorldInfo> saveList;
 
-    public MapSelectionList(MapListScreen mapListScreen, int i, int j, int k, int l, int m) {
-        super(mapListScreen.getMinecraftInstance(), i, j, k, l, m);
+    public MapSelectionList(MapListScreen mapListScreen, int i, int j, int k, int l) {
+        super(mapListScreen.getMinecraftInstance(), i, j, k, l);
         this.screen = mapListScreen;
         saveLoader = new TemplateSaveLoader(new File(Minecraft.getInstance().gameDirectory, "maps"));
         saveList = saveLoader.getSaveList();
@@ -50,7 +50,7 @@ public class MapSelectionList extends ObjectSelectionList<MapSelectionList.MapLi
 
     private void fillLevels() {
         this.clearEntries();
-        for (WorldInfo worldInfo : saveList){
+        for (WorldInfo worldInfo : saveList) {
             if (worldInfo instanceof WorldDirectory worldDirectory) {
                 this.addEntry(new MapSelectionList.MapListEntry(this, worldDirectory));
             }
@@ -73,12 +73,6 @@ public class MapSelectionList extends ObjectSelectionList<MapSelectionList.MapLi
     }
 
     @Override
-    protected void renderBackground(GuiGraphics guiGraphics)
-    {
-        this.screen.renderBackground(guiGraphics);
-    }
-
-    @Override
     protected int getScrollbarPosition() {
         return super.getScrollbarPosition() + 20;
     }
@@ -95,13 +89,13 @@ public class MapSelectionList extends ObjectSelectionList<MapSelectionList.MapLi
     }
 
 
-    public class MapListEntry extends ObjectSelectionList.Entry<MapListEntry>{
+    public class MapListEntry extends ObjectSelectionList.Entry<MapListEntry> {
         MapSelectionList selectionList;
         WorldInfo worldInfo;
         Minecraft minecraft;
         private long lastClickTime;
 
-        public MapListEntry(MapSelectionList selectionList, WorldInfo worldInfo){
+        public MapListEntry(MapSelectionList selectionList, WorldInfo worldInfo) {
             this.selectionList = selectionList;
             this.minecraft = selectionList.minecraft;
             this.worldInfo = worldInfo;
@@ -120,7 +114,7 @@ public class MapSelectionList extends ObjectSelectionList<MapSelectionList.MapLi
             String topLine = displayName + ", " + ChatFormatting.ITALIC + ChatFormatting.BOLD + by + ChatFormatting.RESET + ": " + author;
             String middleLine = worldInfo.getAuthorData().description;
 
-            if(worldInfo.valid().isPresent()){
+            if (worldInfo.valid().isPresent()) {
                 middleLine += "   " + ChatFormatting.RED + worldInfo.valid().get();
             }
             guiGraphics.drawString(this.minecraft.font, topLine, x + 140, y + 5, 16777215);
@@ -130,13 +124,13 @@ public class MapSelectionList extends ObjectSelectionList<MapSelectionList.MapLi
         @Override
         public boolean mouseClicked(double d, double e, int i) {
 
-                select();
-                if (Util.getMillis() - this.lastClickTime < 250L) {
-                    this.worldInfo.copy(this.selectionList.screen, Util.sanitizeName(getScreen().nameEdit.getValue(), ResourceLocation::validPathChar));
-                } else {
-                    this.lastClickTime = Util.getMillis();
-                }
-                return true;
+            select();
+            if (Util.getMillis() - this.lastClickTime < 250L) {
+                this.worldInfo.copy(this.selectionList.screen, Util.sanitizeName(getScreen().nameEdit.getValue(), ResourceLocation::validPathChar));
+            } else {
+                this.lastClickTime = Util.getMillis();
+            }
+            return true;
 
         }
 

@@ -10,6 +10,8 @@ import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
 import net.minecraft.client.gui.screens.worldselection.WorldSelectionList;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.storage.LevelSummary;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -37,9 +39,9 @@ public abstract class MixinSelectWorldScreen extends Screen {
 
     @Shadow private Button copyButton;
 
-    @Shadow public abstract void updateButtonStatus(boolean bl, boolean bl2);
-
     @Shadow @Final protected Screen lastScreen;
+
+    @Shadow public abstract void updateButtonStatus(@Nullable LevelSummary levelSummary);
 
     protected MixinSelectWorldScreen(Component component) {
         super(component);
@@ -65,7 +67,6 @@ public abstract class MixinSelectWorldScreen extends Screen {
         this.renameButton = this.addRenderableWidget(Button.builder(Component.translatable("selectWorld.edit"), (button) -> {
             this.list.getSelectedOpt().ifPresent(WorldSelectionList.WorldListEntry::editWorld);
         }).bounds(this.width / 2 - 154, this.height - 28, 72, 20).build());
-
         this.renameButton.visible = ModConfig.EDIT_BUTTON_ENABLED;
 
         this.deleteButton = this.addRenderableWidget(Button.builder(Component.translatable("selectWorld.delete"), (button) -> {
@@ -77,20 +78,10 @@ public abstract class MixinSelectWorldScreen extends Screen {
         }).bounds(this.width / 2 + 4, this.height - 28, 72, 20).build());
         this.copyButton.visible = ModConfig.REBUILD_BUTTON_ENABLED;
 
-        this.addRenderableWidget(Button.builder(CommonComponents.GUI_CANCEL, (button) -> {
+        this.addRenderableWidget(Button.builder(CommonComponents.GUI_BACK, (button) -> {
             this.minecraft.setScreen(this.lastScreen);
         }).bounds(this.width / 2 + 82, this.height - 28, 72, 20).build());
-        this.updateButtonStatus(false, false);
-        this.setInitialFocus(this.searchBox);
+        this.updateButtonStatus(null);
         ci.cancel();
     }
-    @Inject(method="updateButtonStatus", at= @At(value = "HEAD"))
-    private void mappreset$updateButtonStatus(boolean bl, boolean bl2, CallbackInfo ci){
-        this.selectButton.active = bl;
-        if (ModConfig.EDIT_BUTTON_ENABLED) this.renameButton.active = bl;
-        if (ModConfig.REBUILD_BUTTON_ENABLED) this.copyButton.active = bl;
-        this.deleteButton.active = bl2;
-    }
-
-
 }

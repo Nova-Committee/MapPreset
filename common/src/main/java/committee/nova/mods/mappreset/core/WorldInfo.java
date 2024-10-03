@@ -14,27 +14,16 @@ import java.util.Optional;
  * @Description:
  */
 public abstract class WorldInfo {
-    public abstract String getName();
-
-    public abstract AuthorData getAuthorData();
-
-    public abstract File getSaveFile();
-
-    public abstract void copy(MapListScreen screen, String name);
-
-    public abstract Optional<String> valid();
-
     public static WorldInfo load(File inputFile) {
         if (inputFile.isDirectory()) {
             File levelData = new File(inputFile, "level.dat");
-            if(levelData.exists()){
+            if (levelData.exists()) {
                 try {
                     return WorldDirectory.loadDir(inputFile);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-            else {
+            } else {
                 MapPreset.LOG.error(inputFile.getName() + " is not supported!");
                 return null;
             }
@@ -46,6 +35,16 @@ public abstract class WorldInfo {
         MapPreset.LOG.error(inputFile.getName() + " is not a valid template file!");
         return null;
     }
+
+    public abstract String getName();
+
+    public abstract AuthorData getAuthorData();
+
+    public abstract File getSaveFile();
+
+    public abstract void copy(MapListScreen screen, String name);
+
+    public abstract Optional<String> valid();
 
     public static class AuthorData {
         public String author = "No Author";

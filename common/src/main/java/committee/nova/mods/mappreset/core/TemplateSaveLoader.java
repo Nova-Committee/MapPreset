@@ -15,7 +15,7 @@ public class TemplateSaveLoader {
 
     public TemplateSaveLoader(File save_folder) {
         this.saveFolder = save_folder;
-        if(!save_folder.exists()){
+        if (!save_folder.exists()) {
             save_folder.mkdir();
         }
     }
@@ -24,12 +24,12 @@ public class TemplateSaveLoader {
 
         List<WorldInfo> worldInfoList = new ArrayList<>();
         File[] files = saveFolder.listFiles();
-        if(files == null){
+        if (files == null) {
             return worldInfoList;
         }
         for (File file : files) {
             WorldInfo worldInfo = WorldInfo.load(file);
-            if(worldInfo == null){
+            if (worldInfo == null) {
                 continue;
             }
             worldInfoList.add(worldInfo);

@@ -23,6 +23,9 @@ import java.util.Optional;
 public class WorldDirectory extends WorldInfo {
 
     public static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private String name;
+    private AuthorData author;
+    private File saveFile;
 
     public static WorldDirectory loadDir(File inputDir) throws IOException {
         WorldInfo.AuthorData authorData = null;
@@ -41,10 +44,6 @@ public class WorldDirectory extends WorldInfo {
 
         return worldDirectory;
     }
-
-    private String name;
-    private AuthorData author;
-    private File saveFile;
 
     @Override
     public String getName() {
@@ -66,30 +65,29 @@ public class WorldDirectory extends WorldInfo {
         try {
             FileUtils.copyDirectory(new File(Minecraft.getInstance().gameDirectory + File.separator + "maps" + File.separator + getName()),
                     new File(Minecraft.getInstance().gameDirectory + File.separator + "saves" + File.separator + name));
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+        }
 
-        try
-        {
+        try {
             LevelStorageSource.LevelStorageAccess storageAccess = screen.getMinecraftInstance().getLevelSource().createAccess(name);
 
             // Rename the level for our new name
             storageAccess.renameLevel(name);
             storageAccess.close();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             SystemToast.onWorldAccessFailure(screen.getMinecraftInstance(), name);
             MapPreset.LOG.error("Failed to rename level {}", name, e);
         }
 
         // Load the level
-        screen.getMinecraftInstance().createWorldOpenFlows().loadLevel(screen, name);
+        screen.getMinecraftInstance().createWorldOpenFlows().openWorld(name, () -> {
+        });
 
     }
 
     @Override
     public Optional<String> valid() {
-        if(new File(getSaveFile(), "level.dat").exists()){
+        if (new File(getSaveFile(), "level.dat").exists()) {
             return Optional.empty();
         }
         return Optional.of("level.dat not found!");
