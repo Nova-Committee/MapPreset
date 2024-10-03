@@ -3,7 +3,6 @@ package committee.nova.mods.mappreset.core;
 import committee.nova.mods.mappreset.MapPreset;
 import committee.nova.mods.mappreset.client.MapListScreen;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;

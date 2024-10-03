@@ -2,10 +2,8 @@ package committee.nova.mods.mappreset.mixin;
 
 import committee.nova.mods.mappreset.ModConfig;
 import committee.nova.mods.mappreset.client.MapListScreen;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;

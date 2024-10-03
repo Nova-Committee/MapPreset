@@ -7,7 +7,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'mappreset'
+rootProject.name = 'MapPreset'
 
 include 'common'
 include 'fabric'

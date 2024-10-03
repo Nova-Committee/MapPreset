@@ -1,11 +1,10 @@
 package committee.nova.mods.mappreset.forge;
 
+import committee.nova.mods.mappreset.MapPreset;
 import committee.nova.mods.mappreset.ModCmd;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import committee.nova.mods.mappreset.MapPreset;
 
 @Mod(MapPreset.MOD_ID)
 public final class MapPresetForge {

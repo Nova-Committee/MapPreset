@@ -46,9 +46,8 @@ public abstract class MixinCreateWorldScreen extends Screen {
 
     @Shadow
     public abstract void popScreen();
-
     @Inject(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/layouts/GridLayout;columnSpacing(I)Lnet/minecraft/client/gui/layouts/GridLayout;"), cancellable = true)
-    private void reCreate(CallbackInfo ci) {
+    private void mappreset$reCreate(CallbackInfo ci) {
         this.bottomButtons = (new GridLayout()).columnSpacing(10);
         GridLayout.RowHelper rowHelper = this.bottomButtons.createRowHelper(3);
         var createButton = Button.builder(Component.translatable("selectWorld.create"), (button) -> {
